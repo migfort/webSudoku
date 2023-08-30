@@ -60,6 +60,22 @@ function setValue(value){
     }
 }
 
+function refreshGrid(){
+    for (let i = 0; i < gridCells.length; i++) {
+        gridCells[i] = grid.cells[i];
+    }
+}
+
+function newGame(){
+    const newGame = getNewGame();
+    grid.startNewGame();
+    refreshGrid();
+}
+
+function getNewGame(){
+    //async
+}
+
 //  ==================================  UI  ==================================
 const gridElement = document.querySelector("#grid1");
 const grid = new SudokuGrid(SUDOKU_BASE);

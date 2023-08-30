@@ -22,12 +22,14 @@ class SudokuGrid {
             this.cells[i] = new SudokuCell();
         }
     }
-    startNewGame(difficulty){
-        data = "";
-
-        this.cells.forEach(cell => {
-            
-        });
+    startNewGame(cellsValues){
+        this.init();
+        for (let i = 0; i < cellsValues.length; i++) {
+            if(typeof(cellsValues[i]) !== "number"){
+                return;
+            }
+            this.cells[i] = cellsValues[i];
+        }
     }
     setValue(cellId, value){
         const check = this.checkGroup(this.getAllInteractingCells(cellId), value);
