@@ -1,0 +1,100 @@
+body {
+    background-color: rgb(186, 213, 223) ;
+    min-width: min-content;
+}
+
+h1{
+    text-align: center;
+    margin: 2rem 0px;
+}
+
+.grid{
+    min-width: 240px;
+    max-height: 70vh;
+    max-width: 75%;
+    margin: 30px auto;
+    aspect-ratio: 1;
+
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-rows: repeat(9, 1fr);
+
+    background-color: white;
+}
+
+.cell{
+    border: 1px solid gray;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 24px;
+    transition: 0ms;
+}
+@media (min-width:500px) {
+    .cell{
+        font-size: 42px;
+    }
+}
+@media (min-width:750px) {
+    .cell{
+        font-size: 54px;
+    }
+}
+
+.cell:hover, .cell.selected{
+    transition: 100ms;
+    background-color: lightskyblue;
+}
+
+.l-0, .l-3, .l-6{
+    border-top: black solid 2px;
+}
+.l-8{
+    border-bottom: black solid 2px;
+}
+.c-0, .c-3, .c-6 {
+    border-left: black solid 3px;
+}
+.c-8 {
+    border-right: black solid 3px;
+}
+
+.clue{
+    color: rgb(0, 59, 168);
+}
+
+
+
+/* keypad */
+.keypad{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-num{
+    font-size: 42px;
+    color: white;
+    width: 4rem;
+    height: 4rem;
+    margin: 5px;
+    background-color: rgb(12, 0, 185);
+    border-style: none;
+    border-radius: 20%;
+}
+
+.btn-0{
+    font-size: 120%;
+}
+
+.btn-num:hover{
+    transition: 100ms;
+    background-color: rgb(69, 166, 196);;
+    font-weight: bold;
+}
+
+
+
+
