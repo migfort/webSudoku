@@ -28,7 +28,11 @@ class SudokuGrid {
             if(typeof(cellsValues[i]) !== "number"){
                 return;
             }
-            this.cells[i] = cellsValues[i];
+            if(cellsValues[i] === 0){
+                this.cells[i].init(null, false);
+                continue;
+            }
+            this.cells[i].init(cellsValues[i], true);
         }
     }
     setValue(cellId, value){

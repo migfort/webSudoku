@@ -1,7 +1,7 @@
 //  ==============================  Constants  ==============================
 const SUDOKU_BASE = 3;
-const SUDOKU_MAX_NUM = SUDOKU_BASE * SUDOKU_BASE;
-const SUDOKU_CELL_NB = SUDOKU_MAX_NUM * SUDOKU_MAX_NUM;
+const BASE_URI = document.baseURI;
+const GET_NEW_GAME_URI = BASE_URI+"api/newGame";
 
 //  ===============================  Classes  ===============================
 
@@ -20,8 +20,18 @@ class Cell {
         }
         this.isSelected = value;
     }
-    update(value){
+    update(value, isClue){
         this.element.innerText = value;
+        if(typeof(isClue)!=="undefined"){
+            this.setClue(isClue);
+        }
+    }
+    setClue(value){
+        if(value){
+            this.element.classList.add("isClue");
+            return;
+        }
+        this.element.classList.remove("isClue");
     }
 }
 
@@ -51,7 +61,7 @@ function newSelection(id){
 }
 
 function setValue(value){
-    for(let cellIndex = 0; cellIndex < SUDOKU_CELL_NB; cellIndex++){
+    for(let cellIndex = 0; cellIndex < SudokuGrid.cellCnt; cellIndex++){
         if(gridCells[cellIndex].isSelected){
             if(grid.setValue(cellIndex,value)){
                 gridCells[cellIndex].update(value);
@@ -62,18 +72,30 @@ function setValue(value){
 
 function refreshGrid(){
     for (let i = 0; i < gridCells.length; i++) {
-        gridCells[i] = grid.cells[i];
+        gridCells[i].update(grid.cells[i].value,grid.cells[i].isClue);
     }
 }
 
 function newGame(){
-    const newGame = getNewGame();
-    grid.startNewGame();
-    refreshGrid();
+    getNewGame().then((newGame) => {
+        console.log(newGame);
+        grid.startNewGame(newGame);
+        refreshGrid();
+    });
 }
 
-function getNewGame(){
-    //async
+async function getNewGame(){
+    try {
+        let response = await fetch(GET_NEW_GAME_URI);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        let data = await response.json();
+        const cells = data.cells;
+        return cells;
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 //  ==================================  UI  ==================================
@@ -94,3 +116,5 @@ for (let i = 1; i <= grid.maxNum; i++) {
 }
 numButtons[0] = document.querySelector(`.btn-${0}`);
 numButtons[0].addEventListener("click", () => {setValue(null)});
+
+newGame();

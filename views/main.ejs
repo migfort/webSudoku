@@ -14,8 +14,6 @@
                 <% for( let col = 0; col < 9; col++ ) { %>
                 <% cell = line*9+col %>
                 <div id="cell-<%= cell %>" class="cell l-<%= line %> c-<%= col %> b-<%= (Math.floor(cell/27)+1) * (Math.floor((cell%9)/3)+1)-1 %>">
-                    <%#= cell %>
-                    
                 </div>
                 <% } %>
             <% } %>
