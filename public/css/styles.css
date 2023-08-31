@@ -20,6 +20,7 @@ h1{
     grid-template-rows: repeat(9, 1fr);
 
     background-color: white;
+    font-size: 5vmin;
 }
 
 .cell{
@@ -29,18 +30,8 @@ h1{
     align-items: center;
     justify-content: center;
 
-    font-size: 24px;
+    font-size: inherit;
     transition: 0ms;
-}
-@media (min-width:500px) {
-    .cell{
-        font-size: 42px;
-    }
-}
-@media (min-width:750px) {
-    .cell{
-        font-size: 54px;
-    }
 }
 
 .cell:hover, .cell.selected{
