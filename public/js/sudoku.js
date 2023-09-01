@@ -14,6 +14,7 @@ class SudokuGrid {
         this.base = base;
         this.maxNum = Math.pow(this.base, 2);
         this.cells = [];
+        this.difficuty = undefined;
         this.init();
     }
     init() {
@@ -21,17 +22,18 @@ class SudokuGrid {
             this.cells[i] = new SudokuCell();
         }
     }
-    startNewGame(cellsValues) {
+    startNewGame(game) {
         this.init();
-        for (let i = 0; i < cellsValues.length; i++) {
-            if (typeof cellsValues[i] !== "number") {
+        this.difficulty = game.difficulty;
+        for (let i = 0; i < game.cells.length; i++) {
+            if (typeof game.cells[i] !== "number") {
                 return;
             }
-            if (cellsValues[i] === 0) {
+            if (game.cells[i] === 0) {
                 this.cells[i].init(null, false);
                 continue;
             }
-            this.cells[i].init(cellsValues[i], true);
+            this.cells[i].init(game.cells[i], true);
         }
     }
     setValue(cellId, value) {
