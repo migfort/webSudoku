@@ -1,9 +1,8 @@
-Array.prototype.unique = function() {
+Array.prototype.unique = function () {
     var a = this.concat();
-    for(var i=0; i<a.length; ++i) {
-        for(var j=i+1; j<a.length; ++j) {
-            if(a[i] === a[j])
-                a.splice(j--, 1);
+    for (var i = 0; i < a.length; ++i) {
+        for (var j = i + 1; j < a.length; ++j) {
+            if (a[i] === a[j]) a.splice(j--, 1);
         }
     }
 
@@ -11,103 +10,139 @@ Array.prototype.unique = function() {
 };
 
 class SudokuGrid {
-    constructor(base){
+    constructor(base) {
         this.base = base;
-        this.maxNum = Math.pow(this.base,2);
+        this.maxNum = Math.pow(this.base, 2);
         this.cells = [];
+        this.difficuty = undefined;
         this.init();
     }
     init() {
-        for (let i = 0; i < Math.pow(this.maxNum,2); i++) {
+        for (let i = 0; i < Math.pow(this.maxNum, 2); i++) {
             this.cells[i] = new SudokuCell();
         }
     }
-    startNewGame(cellsValues){
+    startNewGame(game) {
         this.init();
-        for (let i = 0; i < cellsValues.length; i++) {
-            if(typeof(cellsValues[i]) !== "number"){
+        this.difficulty = game.difficulty;
+        for (let i = 0; i < game.cells.length; i++) {
+            if (typeof game.cells[i] !== "number") {
                 return;
             }
-            if(cellsValues[i] === 0){
+            if (game.cells[i] === 0) {
                 this.cells[i].init(null, false);
                 continue;
             }
-            this.cells[i].init(cellsValues[i], true);
+            this.cells[i].init(game.cells[i], true);
         }
     }
-    setValue(cellId, value){
-        const check = this.checkGroup(this.getAllInteractingCells(cellId), value);
-        if(check !== true){
-            console.error("Can not set value", value, "for cell", cellId, "because of cell", check);
+    setValue(cellId, value) {
+        const check = this.checkGroup(
+            this.getAllInteractingCells(cellId),
+            value
+        );
+        if (check !== true) {
+            console.error(
+                "Can not set value",
+                value,
+                "for cell",
+                cellId,
+                "because of cell",
+                check
+            );
             return false;
         }
         return this.cells[cellId].setValue(value);
     }
     //Check in group of cell if any other have the value. returns cell id of confilting cell or true if ok.
-    checkGroup(otherIds = [], newValue){
+    checkGroup(otherIds = [], newValue) {
         for (let i = 0; i < otherIds.length; i++) {
-            if(this.cells[otherIds[i]].value === newValue){
+            if (this.cells[otherIds[i]].value === newValue) {
                 return otherIds[i];
             }
         }
         return true;
     }
-    getAllInteractingCells(cellId){
-        const col = this.getIdsInGroup(SudokuGrid.getColumn(cellId), (num, index) => this.columnSelector(num, index), cellId);
-        const row = this.getIdsInGroup(SudokuGrid.getRow(cellId), (num, index) => this.rowSelector(num, index), cellId);
-        const block = this.getIdsInGroup(SudokuGrid.getBlock(cellId), (num, index) => this.blockSelector(num, index), cellId);
-        console.log(SudokuGrid.getBlock(cellId), block)
-        return Array.prototype.concat(col,row,block).unique();
+    getAllInteractingCells(cellId) {
+        const col = this.getIdsInGroup(
+            SudokuGrid.getColumn(cellId),
+            (num, index) => this.columnSelector(num, index),
+            cellId
+        );
+        const row = this.getIdsInGroup(
+            SudokuGrid.getRow(cellId),
+            (num, index) => this.rowSelector(num, index),
+            cellId
+        );
+        const block = this.getIdsInGroup(
+            SudokuGrid.getBlock(cellId),
+            (num, index) => this.blockSelector(num, index),
+            cellId
+        );
+        console.log(SudokuGrid.getBlock(cellId), block);
+        return Array.prototype.concat(col, row, block).unique();
     }
-    getIdsInGroup(num, groupSelectFunc, idToIgnore){
+    getIdsInGroup(num, groupSelectFunc, idToIgnore) {
         const ids = [];
         let index = 0;
         for (let i = 0; i < this.maxNum; i++) {
             const cellId = groupSelectFunc(num, i);
-            //console.log(cellId, "in group");
-            if(!this.cells[cellId].value || cellId === idToIgnore){
+            if (!this.cells[cellId].value || cellId === idToIgnore) {
                 continue;
             }
             ids[index++] = cellId;
         }
         return ids;
     }
-    columnSelector(num, index){
-        return num + index*this.maxNum;
+    columnSelector(num, index) {
+        return num + index * this.maxNum;
     }
-    rowSelector(num, index){
-        return num*this.maxNum + index;
+    rowSelector(num, index) {
+        return num * this.maxNum + index;
     }
-    blockSelector(num, index){
-        return Math.floor(index/this.base)*this.maxNum + Math.floor(num/this.base)*(this.base*this.maxNum) + index%this.base + (num%this.base)*this.base;
+    blockSelector(num, index) {
+        return (
+            Math.floor(index / this.base) * this.maxNum +
+            Math.floor(num / this.base) * (this.base * this.maxNum) +
+            (index % this.base) +
+            (num % this.base) * this.base
+        );
     }
-    getValidValues(cellId){
-        
-    }
-    static parseNewGame(data){
-        const newValues = []
+    getValidValues(cellId) {}
+    static parseNewGame(data) {
+        const newValues = [];
         for (let i = 0; i < this.maxNum; i++) {
             newValues[i] = data[i].value;
         }
         return newValues;
     }
     static getColumn(id) {
-        if(typeof(id)!=="number" || id<0){
+        if (typeof id !== "number" || id < 0) {
             return null;
         }
-        return Math.max(0, Math.min(SudokuGrid.maxNum, Math.floor(id % (SudokuGrid.maxNum))));
+        return Math.max(
+            0,
+            Math.min(SudokuGrid.maxNum, Math.floor(id % SudokuGrid.maxNum))
+        );
     }
     static getRow(id) {
-        if(typeof(id)!=="number" || id<0){
+        if (typeof id !== "number" || id < 0) {
             return null;
         }
-        return Math.max(0, Math.min(SudokuGrid.maxNum, Math.floor(id / SudokuGrid.maxNum)));
+        return Math.max(
+            0,
+            Math.min(SudokuGrid.maxNum, Math.floor(id / SudokuGrid.maxNum))
+        );
     }
     static getBlock(id) {
-        if(typeof(id)!=="number" || id<0){
+        if (typeof id !== "number" || id < 0) {
             return null;
         }
-        return Math.floor((id%SudokuGrid.maxNum)/SudokuGrid.base) + Math.floor(id/(SudokuGrid.maxNum*SudokuGrid.base))*SudokuGrid.base;
+        return (
+            Math.floor((id % SudokuGrid.maxNum) / SudokuGrid.base) +
+            Math.floor(id / (SudokuGrid.maxNum * SudokuGrid.base)) *
+                SudokuGrid.base
+        );
     }
     static base = 3;
     static maxNum = Math.pow(this.base, 2);
@@ -120,19 +155,21 @@ class SudokuCell {
         this.valueChanged = valueChanged;
         this.init(value, isClue);
     }
-  
+
     setValue(value) {
         if (this.isClue) {
             console.error("Cannot change the value of a clue cell.");
             return false;
         }
-    
+
         if (value === null || (value >= 1 && value <= 9)) {
             this.value = value;
             this.valueChanged(this.value);
             return true;
         } else {
-            console.error("Invalid cell value. Please enter a number between 1 and 9.");
+            console.error(
+                "Invalid cell value. Please enter a number between 1 and 9."
+            );
             return false;
         }
     }

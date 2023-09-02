@@ -1,18 +1,31 @@
+:root {
+    --cell-bg-color-selected: rgb(174, 180, 238);
+}
+
 body {
-    background-color: rgb(186, 213, 223) ;
+    background-color: rgb(186, 213, 223);
     min-width: min-content;
 }
 
-h1{
+h1 {
     text-align: center;
-    margin: 2rem 0px;
+    margin: 1rem 0px;
 }
 
-.grid{
+.difficulty {
+    margin: 0;
+    text-align: center;
+    font-size: 24px;
+}
+.difficulty span{
+    font-weight: bold;
+}
+
+.grid {
     min-width: 240px;
     max-height: 70vh;
-    max-width: 75%;
-    margin: 30px auto;
+    max-width: 90%;
+    margin: 5px auto 30px;
     aspect-ratio: 1;
 
     display: grid;
@@ -23,7 +36,7 @@ h1{
     font-size: 5vmin;
 }
 
-.cell{
+.cell {
     border: 1px solid gray;
 
     display: flex;
@@ -32,40 +45,46 @@ h1{
 
     font-size: inherit;
     transition: 0ms;
+
+    color: rgb(0, 73, 209);
 }
 
-.cell:hover, .cell.selected{
+.cell:hover,
+.cell.selected {
     transition: 100ms;
-    background-color: lightskyblue;
+    background-color: var(--cell-bg-color-selected);
 }
 
-.l-0, .l-3, .l-6{
+.l-0,
+.l-3,
+.l-6 {
     border-top: black solid 2px;
 }
-.l-8{
+.l-8 {
     border-bottom: black solid 2px;
 }
-.c-0, .c-3, .c-6 {
+.c-0,
+.c-3,
+.c-6 {
     border-left: black solid 3px;
 }
 .c-8 {
     border-right: black solid 3px;
 }
 
-.clue{
-    color: rgb(0, 59, 168);
+.isClue {
+    color: black;
+    /*font-weight: bold;*/
 }
 
-
-
 /* keypad */
-.keypad{
+.keypad {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
 }
 
-.btn-num{
+.btn-num {
     font-size: 42px;
     color: white;
     width: 4rem;
@@ -76,16 +95,12 @@ h1{
     border-radius: 20%;
 }
 
-.btn-0{
+.btn-0 {
     font-size: 120%;
 }
 
-.btn-num:hover{
+.btn-num:hover {
     transition: 100ms;
-    background-color: rgb(69, 166, 196);;
+    background-color: rgb(69, 166, 196);
     font-weight: bold;
 }
-
-
-
-
