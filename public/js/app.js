@@ -3,6 +3,8 @@ const SUDOKU_BASE = 3;
 const BASE_URI = document.baseURI;
 const GET_NEW_GAME_URI = BASE_URI + "api/newGame";
 
+const difficulties = ["Easy", "Medium", "Hard"];
+
 //  ===============================  Classes  ===============================
 
 class Cell {
@@ -74,16 +76,22 @@ function refreshGrid() {
     updateDifficulty(grid.difficulty);
 }
 
-function newGame() {
-    getNewGame().then((newGame) => {
+function newGame(difficulty) {
+    getNewGame(difficulty).then((newGame) => {
         grid.startNewGame(newGame);
         refreshGrid();
     });
 }
 
-async function getNewGame() {
+async function getNewGame(difficulty) {
     try {
-        let response = await fetch(GET_NEW_GAME_URI);
+        let response = await fetch(
+            GET_NEW_GAME_URI +
+                "?" +
+                new URLSearchParams({
+                    difficulty: difficulty,
+                })
+        );
         if (!response.ok) {
             throw new Error("Network response was not ok");
         }
@@ -95,17 +103,26 @@ async function getNewGame() {
     }
 }
 
+function cycleDifficulty() {
+    difficulty =
+        difficulties[
+            (difficulties.indexOf(difficulty) + 1) % difficulties.length
+        ];
+    newGame(difficulty);
+}
+
 function updateDifficulty(difficulty) {
-    const difficultyEl = document.querySelector(".difficulty span");
-    if (difficultyEl === undefined) {
-        difficultyEl.innerText = " - ";
+    if (difficultyElement === undefined) {
+        difficultyElement.innerText = " - ";
         return;
     }
-    difficultyEl.innerText = difficulty;
+    difficultyElement.innerText = difficulty;
 }
 
 //  ==================================  UI  ==================================
 const gridElement = document.querySelector("#grid1");
+let difficulty = difficulties[0];
+const difficultyElement = document.querySelector(".difficulty span");
 const grid = new SudokuGrid(SUDOKU_BASE);
 const gridCells = [];
 const cellIndex = 0;
@@ -129,4 +146,8 @@ numButtons[0].addEventListener("click", () => {
     setValue(null);
 });
 
-newGame();
+difficultyElement.addEventListener("click", () => {
+    cycleDifficulty();
+});
+
+newGame(difficulty);

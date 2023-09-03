@@ -19,6 +19,8 @@ h1 {
 }
 .difficulty span{
     font-weight: bold;
+    user-select: none;
+    cursor: pointer;
 }
 
 .grid {
