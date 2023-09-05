@@ -1,23 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sudoku</title>
-    <link rel="stylesheet" href="/css/styles.css">
+<%- include("partials/head") %>
+    <script src="/js/sudoku.js" defer="true"></script>
+    <script src="/js/app.js" defer="true"></script>
 </head>
 <body>
     <h1>Sudoku</h1>
     <section class="game">
         <p class="difficulty">Difficulty: <span> - </span></p>
-        <div id="grid1" class="grid">
-            <% for( let line = 0; line < 9; line++ ) { %>
-                <% for( let col = 0; col < 9; col++ ) { %>
-                <% cell = line*9+col %>
-                <div id="cell-<%= cell %>" class="cell l-<%= line %> c-<%= col %> b-<%= (Math.floor(cell/27)+1) * (Math.floor((cell%9)/3)+1)-1 %>">
-                </div>
+        <div class="board">
+            <div id="grid1" class="grid ">
+                <% for( let line = 0; line < 9; line++ ) { %>
+                    <% for( let col = 0; col < 9; col++ ) { %>
+                    <% cell = line*9+col %>
+                    <div id="cell-<%= cell %>" class="cell l-<%= line %> c-<%= col %> b-<%= (Math.floor(cell/27)+1) * (Math.floor((cell%9)/3)+1)-1 %>">
+                    </div>
+                    <% } %>
                 <% } %>
-            <% } %>
+            </div>
         </div>
         <div class="keypad">
             <% for( let num = 1; num <= 9; num++ ) { %>
@@ -29,8 +27,8 @@
                 Clear
             </button>
         </div>
+        
     </section>
-    <script src="/js/sudoku.js"></script>
-    <script src="/js/app.js"></script>
+    
 </body>
 </html>

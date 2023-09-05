@@ -23,24 +23,27 @@ h1 {
     cursor: pointer;
 }
 
-.grid {
-    min-width: 240px;
-    max-height: 70vh;
-    max-width: 90%;
-    margin: 5px auto 30px;
-    aspect-ratio: 1;
+.game {
+    margin: 0;
+}
+.board{
+    border: 1px solid red;
+}
 
+.grid {
+    aspect-ratio: 1;
     display: grid;
     grid-template-columns: repeat(9, 1fr);
     grid-template-rows: repeat(9, 1fr);
+    max-height: 70vh;
+
+    margin: 0 auto;
 
     background-color: white;
-    font-size: 5vmin;
+    font-size: 6.8vmin;
 }
 
 .cell {
-    border: 1px solid gray;
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -50,6 +53,22 @@ h1 {
 
     color: rgb(0, 73, 209);
 }
+@media(min-width:650px){
+    .grid {
+        font-size: 2.5rem;
+    }
+    .game {
+        margin: 0 auto;
+    }
+}
+@media(min-width:1100px){
+    .grid {
+        font-size: 2.5rem;
+    }
+    .game {
+        margin: 0 20vw;
+    }
+}
 
 .cell:hover,
 .cell.selected {
@@ -57,15 +76,24 @@ h1 {
     background-color: var(--cell-bg-color-selected);
 }
 
-.l-0,
+.cell{
+    border-top: 1px solid gray;
+    border-left: 1px solid gray;
+}
+.l-0{
+    border-top: black solid 3px;
+}
 .l-3,
 .l-6 {
     border-top: black solid 2px;
 }
 .l-8 {
-    border-bottom: black solid 2px;
+    border-bottom: black solid 3px;
 }
-.c-0,
+
+.c-0 {
+    border-left: black solid 3px;
+}
 .c-3,
 .c-6 {
     border-left: black solid 3px;
