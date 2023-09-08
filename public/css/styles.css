@@ -2,10 +2,6 @@
     --cell-bg-color-selected: rgb(167, 208, 255);
 }
 
-body {
-    /* min-width: min-content; */
-}
-
 h1 {
     text-align: center;
     margin: 1rem 0px;
@@ -25,9 +21,6 @@ h1 {
 .game {
     margin: 0;
 }
-/* .board{
-    border: 1px solid red;
-} */
 
 .grid {
     aspect-ratio: 1;
@@ -118,31 +111,3 @@ h1 {
     color: black;
     /*font-weight: bold;*/
 }
-
-/* keypad */
-/* .keypad {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.btn-num {
-    font-size: 42px;
-    color: white;
-    width: 4rem;
-    height: 4rem;
-    margin: 5px;
-    background-color: rgb(12, 0, 185);
-    border-style: none;
-    border-radius: 20%;
-}
-
-.btn-0 {
-    font-size: 120%;
-}
-
-.btn-num:hover {
-    transition: 100ms;
-    background-color: rgb(69, 166, 196);
-    font-weight: bold;
-} */
