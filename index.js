@@ -114,15 +114,7 @@ app.get("/", function (req, res) {
     res.render("main.ejs");
 });
 app.get("/play", function (req, res) {
-    res.render("play.ejs", { game: undefined });
-});
-app.get("play/:id", function (req, res) {
-    const { id } = req.params();
-    if (id == undefined) {
-        res.status(404).send(`No game with ID ${id}`);
-    }
-    const game = getGameById(id);
-    res.render("play.ejs", { game: null });
+    res.render("play.ejs");
 });
 
 app.get("/api/newgame", async (req, res) => {
