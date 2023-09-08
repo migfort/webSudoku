@@ -52,12 +52,16 @@ async function getRandomGame(difficulty) {
     const filter = { difficulty: difficulty };
     const ids = await sudokuGame.find(filter).select("_id");
     const rand = getRandomNum(ids.length - 1);
-    let game = await sudokuGame.findById(ids[rand]);
+    let game = await getGameById(ids[rand]);
     return game;
 }
 
 function getRandomNum(max) {
     return Math.floor(Math.random() * (max + 1));
+}
+
+async function getGameById(id) {
+    return await sudokuGame.findById(id);
 }
 
 function parseApiGameData(grid) {
@@ -108,6 +112,17 @@ app.use(express.static(path.join(__dirname, "/public")));
 
 app.get("/", function (req, res) {
     res.render("main.ejs");
+});
+app.get("/play", function (req, res) {
+    res.render("play.ejs", { game: undefined });
+});
+app.get("play/:id", function (req, res) {
+    const { id } = req.params();
+    if (id == undefined) {
+        res.status(404).send(`No game with ID ${id}`);
+    }
+    const game = getGameById(id);
+    res.render("play.ejs", { game: null });
 });
 
 app.get("/api/newgame", async (req, res) => {

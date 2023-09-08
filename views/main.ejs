@@ -1,34 +1,21 @@
 <%- include("partials/head") %>
-    <script src="/js/sudoku.js" defer="true"></script>
     <script src="/js/app.js" defer="true"></script>
 </head>
-<body>
-    <h1>Sudoku</h1>
-    <section class="game">
-        <p class="difficulty">Difficulty: <span> - </span></p>
-        <div class="board">
-            <div id="grid1" class="grid ">
-                <% for( let line = 0; line < 9; line++ ) { %>
-                    <% for( let col = 0; col < 9; col++ ) { %>
-                    <% cell = line*9+col %>
-                    <div id="cell-<%= cell %>" class="cell l-<%= line %> c-<%= col %> b-<%= (Math.floor(cell/27)+1) * (Math.floor((cell%9)/3)+1)-1 %>">
-                    </div>
-                    <% } %>
-                <% } %>
+<body class="bg-body-secondary">
+    <%- include("partials/navbar") %>
+    <section class="container">
+        <h2 class="h2 m-3 pb-3 border-dark border-bottom text-center">Start new game</h2>
+        <div class="container d-grid">
+            <div class="row justify-content-center">
+                <a class="btn btn-primary btn-lg d-block col-6 m-2" href="/play?difficulty=Easy" role="button">Easy</a>
+            </div>
+            <div class="row justify-content-center">
+                <a class="btn btn-primary btn-lg d-block col-6 m-2" href="/play?difficulty=Medium" role="button">Medium</a>
+            </div>
+            <div class="row justify-content-center">
+                <a class="btn btn-primary btn-lg d-block col-6 m-2" href="/play?difficulty=Hard" role="button">Hard</a>
             </div>
         </div>
-        <div class="keypad">
-            <% for( let num = 1; num <= 9; num++ ) { %>
-                <button class="btn-num btn-<%= num %>">
-                    <%= num %>
-                </button>
-            <% } %>
-            <button class="btn-num btn-0">
-                Clear
-            </button>
-        </div>
-        
     </section>
-    
 </body>
 </html>
