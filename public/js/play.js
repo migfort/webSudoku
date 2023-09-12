@@ -7,6 +7,7 @@ const difficulties = ["Easy", "Medium", "Hard"];
 
 //  ===============================  Params  ================================
 const urlParams = new URLSearchParams(window.location.search);
+const id = urlParams.get("id");
 const difficultyParam = urlParams.get("difficulty");
 
 //  ===============================  Classes  ===============================
@@ -80,19 +81,29 @@ function refreshGrid() {
     updateDifficulty(grid.difficulty);
 }
 
-function newGame(difficulty) {
-    getNewGame(difficulty).then((newGame) => {
+function newGameByDifficulty(difficulty) {
+    getNewGame(undefined, difficulty).then((newGame) => {
         grid.startNewGame(newGame);
         refreshGrid();
+        console.info("Game id: ", newGame.id);
     });
 }
 
-async function getNewGame(difficulty) {
+function newGameById(id) {
+    getNewGame(id).then((newGame) => {
+        grid.startNewGame(newGame);
+        refreshGrid();
+        console.info("Game id: ", newGame.id);
+    });
+}
+
+async function getNewGame(id, difficulty) {
     try {
         let response = await fetch(
             GET_NEW_GAME_URI +
                 "?" +
                 new URLSearchParams({
+                    id: id,
                     difficulty: difficulty,
                 })
         );
@@ -112,7 +123,7 @@ function cycleDifficulty() {
         difficulties[
             (difficulties.indexOf(difficulty) + 1) % difficulties.length
         ];
-    newGame(difficulty);
+    newGameByDifficulty(difficulty);
 }
 
 function updateDifficulty(difficulty) {
@@ -122,21 +133,9 @@ function updateDifficulty(difficulty) {
     }
     difficultyElement.innerText = difficulty;
 }
-//
 
 //  ==================================  UI  ==================================
 const gridElement = document.querySelector("#grid1");
-
-let difficulty;
-if (
-    difficultyParam === undefined ||
-    difficulties.indexOf(difficultyParam) == -1
-) {
-    difficulty = difficulties[0];
-} else {
-    difficulty = difficultyParam;
-}
-
 const difficultyElement = document.querySelector(".difficulty span");
 const grid = new SudokuGrid(SUDOKU_BASE);
 const gridCells = [];
@@ -165,4 +164,18 @@ difficultyElement.addEventListener("click", () => {
     cycleDifficulty();
 });
 
-newGame(difficulty);
+//Start game
+let difficulty;
+if (id) {
+    newGameById(id);
+} else {
+    if (
+        difficultyParam === undefined ||
+        difficulties.indexOf(difficultyParam) == -1
+    ) {
+        difficulty = difficulties[0];
+    } else {
+        difficulty = difficultyParam;
+    }
+    newGameByDifficulty(difficulty);
+}

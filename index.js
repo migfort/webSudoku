@@ -120,8 +120,13 @@ app.get("/play", function (req, res) {
 app.get("/api/newgame", async (req, res) => {
     console.log("GET new game");
     try {
-        ({ difficulty } = req.query);
-        let newGame = await getRandomGame(difficulty);
+        ({ difficulty, id } = req.query);
+        let newGame;
+        if (id != "undefined") {
+            newGame = await getGameById(id);
+        } else {
+            newGame = await getRandomGame(difficulty);
+        }
         const data = {
             id: newGame._id,
             cells: newGame.value,

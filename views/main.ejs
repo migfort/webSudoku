@@ -5,7 +5,7 @@
     <%- include("partials/navbar") %>
     <section class="container">
         <h2 class="h2 m-3 text-center">Start new game</h2>
-          <div class="card text-center">
+        <div class="card text-center">
             <div class="card-header pb-0">
                 <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
@@ -32,17 +32,19 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="id-tab-pane" role="tabpanel" tabindex="0">
-                        <div class="mb-3">
-                            <label for="IdInput" class="form-label">Game ID</label>
-                            <input type="text" class="form-control" id="IdInput">
-                            <div class="col-12 mt-3">
-                                <button class="btn btn-primary" type="submit">Play</button>
+                        <form id="findByIdForm" action="">
+                            <div class="mb-3">
+                                <label for="IdInput" class="form-label">Game ID</label>
+                                <input type="text" class="form-control" id="IdInput">
+                                <div class="col-12 mt-3">
+                                    <button class="btn btn-primary" type="submit">Play</button>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
-                  </div>
+                </div>
             </div>
-          </div>
+        </div>
     </section>
 </body>
 </html>
