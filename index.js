@@ -6,6 +6,8 @@ const mongoose = require("mongoose");
 const PORT = 3000;
 
 const sudokuGame = require("./src/models/sudokuGame");
+const helper = require("./src/models/sudoku/sudokuHelper");
+const { error } = require("console");
 
 async function getNewGames(qty = 1) {
     try {
@@ -135,6 +137,22 @@ app.get("/api/newgame", async (req, res) => {
         res.json(data);
     } catch (error) {
         console.log("Failed to get new game...");
+        console.log(error);
+    }
+});
+
+app.get("api/hint", async (req, res) => {
+    console.log("GET hint");
+    ({ gridCells } = req.query);
+    if (!gridCells) throw new Error("gridCells undefined");
+    try {
+        const hint = helper.getHint(gridCells);
+        res.json({
+            cellId: hint.cellId,
+            value: hint.value,
+        });
+    } catch (error) {
+        console.log("Failed to get new hint...");
         console.log(error);
     }
 });
